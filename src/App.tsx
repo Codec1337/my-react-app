@@ -1,26 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { InboxOutlined } from '@ant-design/icons';
+import type { UploadProps } from 'antd';
+import { message, Upload } from 'antd';
+import { loadDecompressHandlers } from "@mcap/support";
+import { BlobReadable } from "@mcap/browser";
+import { McapIndexedReader } from "@mcap/core";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const { Dragger } = Upload;
+
+const props: UploadProps = {
+  name: 'file',
+  multiple: true,
+  action: ' ',
+  onChange(info) {
+    const { status } = info.file;
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+  onDrop(e) {
+    console.log('Dropped files', e.dataTransfer.files);
+    onInputOrDrop(e);
+  },
+};
+
+async function onInputOrDrop(event: InputEvent | DragEvent) {
+  const file = event.dataTransfer.files[0];
+  const decompressHandlers = await loadDecompressHandlers();
+  const reader = await McapIndexedReader.Initialize({
+    readable: new BlobReadable(file),
+    decompressHandlers,
+  });
+  console.log(reader, 'reader');
 }
+
+const App: React.FC = () => (
+  <Dragger {...props}>
+    <p className="ant-upload-drag-icon">
+      <InboxOutlined />
+    </p>
+    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+    <p className="ant-upload-hint">
+      Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+      banned files.
+    </p>
+  </Dragger>
+);
 
 export default App;
