@@ -31,4 +31,4 @@ echo -e "\e[32m****** 5、开始打包docker镜像 docker build ******";
 
 echo $(pwd);
 
-docker build -f $DOCKER_CONFIG_DIR/dockerfile-dev -t $PROJECT_NAME.$GIT_SHORT_HASH .
+docker build --build-arg HOST_WORK_DIR=$WORK_DIR -f $DOCKER_CONFIG_DIR/dockerfile-dev  -t $PROJECT_NAME.$GIT_SHORT_HASH .

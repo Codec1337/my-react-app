@@ -4,8 +4,11 @@ FROM nginx:latest
 ARG CONTAINER_WORK_DIR=/var/www/my-react-app
 WORKDIR ${CONTAINER_WORK_DIR}
 
+RUN pwd
+
 # 宿主机工作目录
-ARG HOST_WORK_DIR=${PWD}
+ARG HOST_WORK_DIR=/home/web
+
 # 打包输出目录修改之后需同步修改
 ARG HOST_BUILD_OUT_DIR=${HOST_WORK_DIR}/build
 
@@ -18,14 +21,20 @@ RUN echo "HOST_BUILD_OUT_DIR: ${HOST_BUILD_OUT_DIR}"
 RUN echo "NGINX_CONFIG_DIR: ${NGINX_CONFIG_DIR}"
 RUN echo "NGINX_CONFIG_DIR/nginx.dev.conf: ${NGINX_CONFIG_DIR}/nginx.dev.conf"
 #RUN cat ${NGINX_CONFIG_DIR}/nginx.dev.conf
-#
-#COPY $HOST_BUILD_OUT_DIR $CONTAINER_WORK_DIR
-#COPY "${NGINX_CONFIG_DIR}/nginx.dev.conf" /etc/nginx/conf.d/default.conf
-#RUN ls -la
+
+COPY ./build "${CONTAINER_WORK_DIR}"
+
+RUN ls -la
+RUN pwd
+
+
+COPY ./nginx/nginx.dev.conf /etc/nginx/conf.d/default.conf
+
+RUN ls -la
 #RUN echo $PWD
-#
-## 暴露容器端口
-#EXPOSE 80
-#
-## 启动 Nginx
-#CMD ["nginx", "-g", "daemon off;"]
+
+# 暴露容器端口
+EXPOSE 80
+
+# 启动 Nginx
+CMD ["nginx", "-g", "daemon off;"]
