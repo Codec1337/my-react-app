@@ -4,7 +4,7 @@ ARG CONTAINER_WORK_DIR=/var/www/my-react-app
 WORKDIR $CONTAINER_WORK_DIR
 
 # 宿主机工作目录
-ARG HOST_WORK_DIR=$(PWD)
+ARG HOST_WORK_DIR=$PWD
 # 打包输出目录修改之后需同步修改
 ARG HOST_BUILD_OUT_DIR=${HOST_WORK_DIR}/build
 
@@ -21,7 +21,7 @@ RUN cat "${NGINX_CONFIG_DIR/}nginx.dev.conf"
 COPY $HOST_BUILD_OUT_DIR $CONTAINER_WORK_DIR
 COPY "${NGINX_CONFIG_DIR}/nginx.dev.conf" /etc/nginx/conf.d/default.conf
 RUN ls -la
-RUN echo $(PWD)
+RUN echo $PWD
 
 # 暴露容器端口
 EXPOSE 80
