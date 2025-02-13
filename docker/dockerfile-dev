@@ -1,7 +1,8 @@
+FROM nginx:latest
 #FROM nginx:1.26-alpine
 # 容器工作目录
 ARG CONTAINER_WORK_DIR=/var/www/my-react-app
-WORKDIR $CONTAINER_WORK_DIR
+WORKDIR ${CONTAINER_WORK_DIR}
 
 # 宿主机工作目录
 ARG HOST_WORK_DIR=$PWD
