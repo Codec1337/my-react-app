@@ -16,7 +16,7 @@ RUN echo "HOST_WORK_DIR: ${HOST_WORK_DIR}"
 RUN echo "HOST_BUILD_OUT_DIR: ${HOST_BUILD_OUT_DIR}"
 RUN echo "NGINX_CONFIG_DIR: ${NGINX_CONFIG_DIR}"
 RUN echo "NGINX_CONFIG_DIR/nginx.dev.conf: ${NGINX_CONFIG_DIR}/nginx.dev.conf"
-RUN cat "${NGINX_CONFIG_DIR/}nginx.dev.conf"
+RUN cat "${NGINX_CONFIG_DIR}/nginx.dev.conf"
 
 COPY $HOST_BUILD_OUT_DIR $CONTAINER_WORK_DIR
 COPY "${NGINX_CONFIG_DIR}/nginx.dev.conf" /etc/nginx/conf.d/default.conf
