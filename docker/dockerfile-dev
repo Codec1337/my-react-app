@@ -3,23 +3,25 @@ FROM nginx:1.26-alpine
 ARG CONTAINER_WORK_DIR=/var/www/my-react-app
 WORKDIR $CONTAINER_WORK_DIR
 
+mkdir
+
 # 宿主机工作目录
 ARG HOST_WORK_DIR=$(PWD)
 # 打包输出目录修改之后需同步修改
-ARG HOST_BUILD_OUT_DIR=$HOST_WORK_DIR/build
+ARG HOST_BUILD_OUT_DIR=${HOST_WORK_DIR}/build
 
 # nginx配置文件目录
-ARG NGINX_CONFIG_DIR=$HOST_WORK_DIR/nginx
+ARG NGINX_CONFIG_DIR=${HOST_WORK_DIR}/nginx
 
 RUN echo CONTAINER_WORK_DIR: $CONTAINER_WORK_DIR
 RUN echo HOST_WORK_DIR: $HOST_WORK_DIR
 RUN echo HOST_BUILD_OUT_DIR: $HOST_BUILD_OUT_DIR
 RUN echo NGINX_CONFIG_DIR: $NGINX_CONFIG_DIR
-RUN echo NGINX_CONFIG_DIR/nginx.dev.conf: $NGINX_CONFIG_DIR/nginx.dev.conf
-RUN cat $NGINX_CONFIG_DIR/nginx.dev.conf
+RUN echo NGINX_CONFIG_DIR/nginx.dev.conf: "${NGINX_CONFIG_DIR}/nginx.dev.conf"
+RUN cat "${NGINX_CONFIG_DIR/}nginx.dev.conf"
 
 COPY $HOST_BUILD_OUT_DIR $CONTAINER_WORK_DIR
-COPY $NGINX_CONFIG_DIR/nginx.dev.conf /etc/nginx/conf.d/default.conf
+COPY "${NGINX_CONFIG_DIR}/nginx.dev.conf" /etc/nginx/conf.d/default.conf
 RUN ls -la
 RUN echo $(PWD)
 
