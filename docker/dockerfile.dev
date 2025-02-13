@@ -1,6 +1,6 @@
 FROM nginx:1.26-alpine
 
-WORK_DIR /var/www/my-react-app
+WORKDIR /var/www/my-react-app
 
 RUN echo ls -la
 RUN echo $(PWD)
