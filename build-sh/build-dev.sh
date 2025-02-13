@@ -12,10 +12,10 @@ BUILD_OUT_DIR=$WORK_DIR/build;
 DOCKER_CONFIG_DIR=$WORK_DIR/docker;
 echo WORK_DIR: $WORK_DIR;
 echo BUILD_SH_DIR: $BUILD_SH_DIR
-echo BUILD_DIST_DIR: $BUILD_DIST_DIR
+echo BUILD_OUT_DIR: BUILD_OUT_DIR
 echo DOCKER_CONFIG_DIR: $DOCKER_CONFIG_DIR
 
-PROJECT_NAME=my_react_app
+PROJECT_NAME=my-react-app
 GIT_SHORT_HASH=$(git rev-parse --short HEAD)
 echo $GIT_SHORT_HASH
 
@@ -31,4 +31,4 @@ echo -e "\e[32m****** 5、开始打包docker镜像 docker build ******";
 
 echo $(pwd);
 
-docker build -f $DOCKER_CONFIG_DIR/dockerfile.dev -t $PROJECT_NAME.$GIT_SHORT_HASH .
+docker build -f $DOCKER_CONFIG_DIR/dockerfile-dev -t $PROJECT_NAME.$GIT_SHORT_HASH .
